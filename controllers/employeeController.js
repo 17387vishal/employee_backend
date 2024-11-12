@@ -96,26 +96,23 @@ exports.editEmployee = async (req, res) => {
     res.status(500).json({ message: 'Error updating employee', error });
   }
 };
-// Get all employees
 exports.getAllEmployees = async (req, res) => {
   try {
-    // Fetch all employees from the database
     const employees = await Employee.find();
 
     if (!employees || employees.length === 0) {
-      return res.status(404).json({ message: 'No employees found' });
+      return res.status(404).json([{ message: 'No employees found' }]);
     }
 
-    // Count total number of employees in the database
     const totalEmployees = await Employee.countDocuments();
 
-    // Return both employee data and total employee count
-    res.status(200).json({ employees, totalEmployees });
+    res.status(200).json([{ employees, totalEmployees }]);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error retrieving employees', error });
+    res.status(500).json([{ message: 'Error retrieving employees', error }]);
   }
 };
+
 // Delete employee
 exports.deleteEmployee = async (req, res) => {
   try {
